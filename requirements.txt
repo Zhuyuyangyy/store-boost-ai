@@ -1,12 +1,46 @@
 # StoreBoost AI Service Dependencies
 # ===================================
-# Web framework
+
+# ── Web Framework ─────────────────────────────────────
 fastapi>=0.109.0
 uvicorn[standard]>=0.27.0
 pydantic>=2.0.0
+pydantic-settings>=2.1.0
 
-# HTTP client
+# ── HTTP Client ───────────────────────────────────────
 httpx>=0.26.0
 
-# Environment variables
+# ── Environment Variables ─────────────────────────────
 python-dotenv>=1.0.0
+
+# ── Testing ───────────────────────────────────────────
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+pytest-xdist>=3.5.0          # parallel test execution
+respx>=0.21.0                 # httpx mocking
+
+# ── Code Quality ──────────────────────────────────────
+ruff>=0.3.0
+
+# ── Data Processing ───────────────────────────────────
+pandas>=2.1.0
+openpyxl>=3.1.0
+numpy>=1.26.0                 # numerical operations
+
+# ── Logging ───────────────────────────────────────────
+loguru>=0.7.0
+
+# ── Caching ───────────────────────────────────────────
+redis>=5.0.0
+
+# ── Utilities ─────────────────────────────────────────
+python-multipart>=0.0.6
+orjson>=3.9.0
+
+# ── NLP / Sentiment Analysis ──────────────────────────
+jieba>=0.42.1                 # Chinese text segmentation
+
+# ── Scheduling ────────────────────────────────────────
+apscheduler>=3.10.0           # background task scheduling

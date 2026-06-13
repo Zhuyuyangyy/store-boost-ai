@@ -6,5 +6,11 @@ build/
 .venv/
 venv/
 .env
+.env.*
 .pytest_cache/
-docs/
+*.log
+node_modules/
+target/
+.idea/
+*.iml
+.DS_Store

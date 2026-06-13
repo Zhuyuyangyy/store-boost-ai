@@ -1,6 +1,8 @@
 """
 AI Prompt Templates - StoreBoost AI 内容生成核心
 """
+from typing import Any
+
 
 CONTENT_CALENDAR_PROMPT = """你是一位专业的短视频运营专家，擅长帮线下门店生成能带来流量和转化的内容。
 
@@ -193,3 +195,100 @@ GROWTH_SUGGESTION_PROMPT = """你是一位线下门店增长顾问，专注于�
 ```
 
 请生成增长建议报告。"""
+
+
+def build_content_calendar_prompt(shop_data: dict[str, Any]) -> str:
+    """Build content calendar prompt from shop data.
+
+    Args:
+        shop_data: Dictionary containing shop information
+
+    Returns:
+        Formatted prompt string
+    """
+    return CONTENT_CALENDAR_PROMPT.format(
+        shop_name=shop_data.get("name", ""),
+        category=shop_data.get("category", ""),
+        address=shop_data.get("address", ""),
+        description=shop_data.get("description", ""),
+    )
+
+
+def build_review_reply_prompt(
+    platform: str,
+    rating: int,
+    content: str,
+    category: str,
+    shop_name: str,
+    negative_type: str = "",
+) -> str:
+    """Build review reply prompt from review data.
+
+    Args:
+        platform: Review platform name
+        rating: Rating (1-5)
+        content: Review content
+        category: Business category
+        shop_name: Shop name
+        negative_type: Type of negative feedback (optional)
+
+    Returns:
+        Formatted prompt string
+    """
+    prompt = REVIEW_REPLY_PROMPT.format(
+        platform=platform,
+        rating=rating,
+        content=content,
+        category=category,
+        shop_name=shop_name,
+    )
+    if negative_type:
+        prompt += f"\n\n## 特别关注\n差评类型：{negative_type}"
+    return prompt
+
+
+def build_viral_title_prompt(
+    original_title: str,
+    category: str,
+    shop_name: str,
+) -> str:
+    """Build viral title prompt.
+
+    Args:
+        original_title: Original title or topic
+        category: Business category
+        shop_name: Shop name
+
+    Returns:
+        Formatted prompt string
+    """
+    return VIRAL_TITLE_PROMPT.format(
+        original_title=original_title,
+        category=category,
+        shop_name=shop_name,
+    )
+
+
+def build_growth_suggestion_prompt(
+    traffic_data: dict[str, Any],
+    content_data: dict[str, Any],
+    review_data: dict[str, Any],
+    shop_info: dict[str, Any],
+) -> str:
+    """Build growth suggestion prompt from analytics data.
+
+    Args:
+        traffic_data: Traffic statistics
+        content_data: Content publishing data
+        review_data: Review and rating data
+        shop_info: Shop information
+
+    Returns:
+        Formatted prompt string
+    """
+    return GROWTH_SUGGESTION_PROMPT.format(
+        traffic_data=str(traffic_data),
+        content_data=str(content_data),
+        review_data=str(review_data),
+        shop_info=str(shop_info),
+    )

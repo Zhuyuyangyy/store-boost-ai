@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches: [main]
@@ -15,13 +16,31 @@ jobs:
           python-version: "3.12"
       - run: pip install ruff
       - run: ruff check .
+      - run: ruff format --check .
 
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - run: pip install pytest
-      - run: pytest tests/ -x || echo "No tests yet"
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install anyio[trio]
+      - name: Run tests
+        env:
+          NVIDIA_API_KEY: "test-key-not-real"
+          PYTHONPATH: "ai-service"
+        run: |
+          pytest tests/ -v --tb=short --cov=ai-service --cov-report=term-missing
+      - name: Upload coverage
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: .coverage
